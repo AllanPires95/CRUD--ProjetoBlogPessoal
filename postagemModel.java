@@ -8,11 +8,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 //Fazer uma tabela = annotetion
 
 @Entity
 @Table(name="tb_postagens")
 public class Postagem {
+	
 	
 	//primary key  
 	@Id
@@ -33,6 +36,7 @@ public class Postagem {
 	
 	public String texto;
 	
+	@UpdateTimestamp
 	public LocalDateTime data;
 	
 

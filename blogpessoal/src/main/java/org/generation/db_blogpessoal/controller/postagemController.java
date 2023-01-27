@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.generation.db_blogpessoal.model.Postagem;
+import org.generation.db_blogpessoal.repository.TemaRepository;
+import org.generation.db_blogpessoal.repository.postagemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 public class postagemController {
 	@Autowired
-	private postagemController repository;
+	private postagemRepository repository;
+	
+	@Autowired
+	private TemaRepository temaRepository;
 	
 
 	@GetMapping
@@ -35,15 +40,25 @@ public class postagemController {
 		return ResponseEntity.ok(repository.findAll());
 	}
 	
+	
 	@GetMapping("/titulo/{titulo}")
 			public ResponseEntity<List<Postagem>> getByTitulo(@PathVariable String Titulo){
 				return ResponseEntity.ok(repository.findAllByTituloContainingIgnoreCase(Titulo));
 				
 	}
+	
+	
 	@PostMapping
 	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem){
+		if (repository.existsById(postagem.getId())){
+			
+		if (temaRepository.existsById(postagem.getTema().getId())) 
 		return ResponseEntity.status(HttpStatus.CREATED)				
 				.body(repository.save(postagem));
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 	@PutMapping
@@ -53,6 +68,8 @@ public class postagemController {
 					.body(repository.save(postagem)))
 			.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 }
+	
+	
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id){
@@ -63,4 +80,5 @@ public class postagemController {
 
 	}
 }
+
 

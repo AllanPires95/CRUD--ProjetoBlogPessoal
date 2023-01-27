@@ -6,9 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 //Fazer uma tabela = annotetion
 
@@ -19,10 +22,9 @@ public class Postagem {
 	
 	//primary key  
 	@Id
-	//auto_increment
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	
-	private Long id;
+	@GeneratedValue (strategy = GenerationType.IDENTITY)//auto_increment
+		private Long id;
 	
 	public Long getId() {
 		return id;
@@ -39,6 +41,9 @@ public class Postagem {
 	@UpdateTimestamp
 	public LocalDateTime data;
 	
+	@ManyToOne	
+	@JsonIgnoreProperties("postagem")
+	private Tema tema;
 
 	public String getTitulo() {
 		return titulo;
@@ -62,6 +67,14 @@ public class Postagem {
 
 	public void setData(LocalDateTime data) {
 		this.data = data;
+	}
+
+	public Tema getTema() {
+		return tema;
+	}
+
+	public void setTema(Tema tema) {
+		this.tema = tema;
 	}
 	
 }

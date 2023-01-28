@@ -25,7 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/postagens")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*")
 
 public class postagemController {
 	@Autowired
@@ -50,23 +50,21 @@ public class postagemController {
 	
 	@PostMapping
 	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem){
-		if (repository.existsById(postagem.getId())){
-			
-		if (temaRepository.existsById(postagem.getTema().getId())) 
-		return ResponseEntity.status(HttpStatus.CREATED)				
+		if(temaRepository.existsById(postagem.getTema().getId()))
+				return ResponseEntity.status(HttpStatus.CREATED)				
 				.body(repository.save(postagem));
-		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-		}
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 	@PutMapping
 	public ResponseEntity<Postagem>put(@Valid @RequestBody Postagem postagem){
-		return repository.findById(postagem.getId())
-			.map(resposta -> ResponseEntity.status(HttpStatus.OK)
-					.body(repository.save(postagem)))
-			.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+		if (repository.existsById(postagem.getId())) {
+			if(temaRepository.existsById(postagem.getTema().getId()))
+				return ResponseEntity.status(HttpStatus.OK)
+						.body(repository.save(postagem));
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 }
 	
 	

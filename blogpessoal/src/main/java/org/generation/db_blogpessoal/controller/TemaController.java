@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.generation.db_blogpessoal.model.Tema;
 import org.generation.db_blogpessoal.repository.TemaRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/temas")
 
 public class TemaController {

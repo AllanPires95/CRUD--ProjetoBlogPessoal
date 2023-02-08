@@ -50,6 +50,11 @@
 	<groupId>org.springframework.boot</groupId>  
 	<artifactId>spring-boot-starter-security</artifactId>  
 </dependency>
+<!-- Dependência da Spring Security -->
+<dependency>
+	<groupId>org.springframework.boot</groupId>  
+	<artifactId>spring-boot-starter-security</artifactId>  
+</dependency>
 <!-- Dependência para Codificação do Token -->
 <dependency>
     <groupId>commons-codec</groupId>
